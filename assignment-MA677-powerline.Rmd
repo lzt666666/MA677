@@ -1,0 +1,29 @@
+---
+title: "MA677 assignment-Power curve"
+author: "Zhitian Liu"
+Date: 2021/2/10
+output:
+  pdf_document: default
+  html_notebook: default
+---
+## How to generate Power curve
+```{r}
+library(ggplot2)
+```
+
+
+```{r}
+n = 100
+m1 = 69
+m2=73
+p = seq(0.4, 1, 0.01)
+Power1=cumsum(dbinom(m1,n,p))
+Power2=cumsum(dbinom(m2,n,p))
+P=data.frame(p,Power1,Power2)
+ggplot(P)+geom_rect(aes(xmin = 0.6, xmax = 0.8, ymin = 0.05, ymax = 0.95), alpha = 0.5)+
+  geom_line(aes(p, Power1),color="blue")+geom_line(aes(p, Power2),color="red")
+```
+
+### Explanation
+The power line should go through the lower and upper bound of the black rectangular area, this is because the lower bound represent the 5% type 1 error and the upper bound represent the type 2 error. We wish both of the Type 1 error and Type 2 error to less than 5%.
+So in the graph, The blue line, when m=69 is the smallest value which can go through the bottom of the box area. And m=73 is the largest value which power line can go through the top of the box area.
